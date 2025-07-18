@@ -1,0 +1,95 @@
+:root {
+  --bg: #f4f6f8;
+  --card-bg: #fff;
+  --text: #222;
+  --secondary: #555;
+}
+body.dark {
+  --bg: #1e1e1e;
+  --card-bg: #2b2b2b;
+  --text: #f0f0f0;
+  --secondary: #ccc;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s, color 0.3s;
+}
+nav {
+  background: var(--card-bg);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+.controls {
+  display: flex;
+  gap: 0.5rem;
+}
+#search {
+  padding: 0.4rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+#darkModeToggle {
+  padding: 0.4rem 0.6rem;
+  border: none;
+  border-radius: 4px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+#darkModeToggle:hover { opacity: 0.9; }
+#teams {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+}
+.team-card {
+  background: var(--card-bg);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transform: translateY(10px);
+  opacity: 0;
+  animation: fadeUp 0.5s forwards;
+}
+@keyframes fadeUp {
+  to { transform: translateY(0); opacity: 1; }
+}
+.team-card h2 { margin: 0 0 5px; color: #007bff; }
+.pilots { font-size: 0.9rem; color: var(--secondary); }
+.progress {
+  background: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 10px;
+  margin: 5px 0;
+}
+.progress div {
+  background: #28a745;
+  height: 100%;
+  width: 0;
+  animation: growBar 1s forwards;
+}
+@keyframes growBar { to { width: var(--progress); } }
+.feats {
+  margin-top: 0.5rem;
+  display: none;
+  font-size: 0.85rem;
+}
+.toggle {
+  cursor: pointer;
+  color: #007bff;
+  font-size: 0.85rem;
+  display: inline-block;
+  margin-top: 5px;
+}
