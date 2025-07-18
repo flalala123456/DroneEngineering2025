@@ -1,7 +1,7 @@
 const repo = "j-goodman/drone-engineering-logs";
 const path = "data.js";
 
-let githubToken = "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";
+let githubToken = "";
 let currentSHA = "";
 
 const editorDiv = document.getElementById("editor");
