@@ -83,7 +83,7 @@ dronePilots = {
             "Sam",
             "Kiran"
         ],
-        feats: [9, 12, 10, 15]
+        feats: [9, 12, 10, 15, 7, 8, 13]
     },
     "Boeing" : {
         pilots: [
