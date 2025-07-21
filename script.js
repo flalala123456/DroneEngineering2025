@@ -1,11 +1,10 @@
 async function loadLiveData() {
   const res = await fetch("https://raw.githubusercontent.com/j-goodman/drone-engineering-logs/main/data.js");
   const text = await res.text();
-
-  // ✅ Evaluate the JS to load feats & dronePilots into global scope
-  eval(text);
+  eval(text); // Loads feats & dronePilots
 
   renderTeams();
+  initDarkMode(); // ✅ Make sure dark mode toggles after rendering
 }
 
 function renderTeams() {
@@ -46,6 +45,23 @@ function renderTeams() {
 
     container.appendChild(card);
   }
+}
+
+function initDarkMode() {
+  const darkModeToggle = document.getElementById("darkModeToggle");
+
+  // ✅ Restore saved preference
+  if (localStorage.getItem("darkMode") === "true") {
+    document.body.classList.add("dark");
+    darkModeToggle.textContent = "☀️ Light Mode";
+  }
+
+  darkModeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+    const isDark = document.body.classList.contains("dark");
+    localStorage.setItem("darkMode", isDark);
+    darkModeToggle.textContent = isDark ? "☀️ Light Mode" : "🌙 Dark Mode";
+  });
 }
 
 document.addEventListener("DOMContentLoaded", loadLiveData);
