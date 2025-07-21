@@ -1,21 +1,36 @@
+let allTeams = {}; // store dronePilots after fetching
+let allFeats = [];
+
 async function loadLiveData() {
   const res = await fetch("https://raw.githubusercontent.com/j-goodman/drone-engineering-logs/main/data.js");
   const text = await res.text();
-  eval(text); // Loads feats & dronePilots
+  eval(text); // Loads feats & dronePilots from data.js
 
+  allTeams = dronePilots;
+  allFeats = feats;
+
+  initDarkMode();
+  initSearch();
   renderTeams();
-  initDarkMode(); // ✅ Make sure dark mode toggles after rendering
 }
 
-function renderTeams() {
+function renderTeams(filter = "") {
   const container = document.getElementById("teams");
   container.innerHTML = "";
-  const totalFeats = feats.length;
+  const totalFeats = allFeats.length;
 
-  for (const [teamName, teamData] of Object.entries(dronePilots)) {
+  for (const [teamName, teamData] of Object.entries(allTeams)) {
     const completedFeats = teamData.feats.map(index =>
-      feats.find(f => f.index === index)
+      allFeats.find(f => f.index === index)
     ).filter(Boolean);
+
+    // ✅ Search filtering
+    const matchString = [
+      teamName,
+      ...teamData.pilots,
+      ...completedFeats.map(f => f.name)
+    ].join(" ").toLowerCase();
+    if (!matchString.includes(filter.toLowerCase())) continue;
 
     const progress = Math.round((completedFeats.length / totalFeats) * 100);
 
@@ -50,7 +65,6 @@ function renderTeams() {
 function initDarkMode() {
   const darkModeToggle = document.getElementById("darkModeToggle");
 
-  // ✅ Restore saved preference
   if (localStorage.getItem("darkMode") === "true") {
     document.body.classList.add("dark");
     darkModeToggle.textContent = "☀️ Light Mode";
@@ -61,6 +75,13 @@ function initDarkMode() {
     const isDark = document.body.classList.contains("dark");
     localStorage.setItem("darkMode", isDark);
     darkModeToggle.textContent = isDark ? "☀️ Light Mode" : "🌙 Dark Mode";
+  });
+}
+
+function initSearch() {
+  const searchInput = document.getElementById("search");
+  searchInput.addEventListener("input", (e) => {
+    renderTeams(e.target.value);
   });
 }
 
